@@ -16,6 +16,6 @@
   },
   "dependencies": {
     "discord.js": "^12.5.1",
-    "js-tale": "^1.5.5"
+    "js-tale": "1.5.5"
   }
 }
