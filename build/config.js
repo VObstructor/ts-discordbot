@@ -1,7 +1,7 @@
 {
-    "client_id" = process.env.client_id,
+    "client_id" = process.env.client-id,
     "client_secret" =  process.env.client-secret,
-    "scope" = process.env.scope,
+    "scope" = process.env.range,
     "discord" = process.env.token,
-    "groupId" = process.env.groupId
+    "groupId" = process.env.group-id
 }
