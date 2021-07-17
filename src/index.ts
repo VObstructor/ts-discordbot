@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('../config');
 const whitelist = require('../whitelisteditems');
 
 import att from 'js-tale/dist';
