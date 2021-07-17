@@ -2,10 +2,10 @@
   "name": "js-tale-discord-example",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "build/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node ."
+    "start": "node ./build/index.js"
   },
   "author": "Joel van de Vorstenbosch",
   "license": "ISC",
