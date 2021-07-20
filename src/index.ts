@@ -89,10 +89,15 @@ var discordHandler : {[command:string]:(message:discord.Message, args?:any)=>voi
             return;
         }
         if (discord.Channel.name == "other-commands" || discord.Channel.name == "bot-testing")
-        {
+        try{
             var response = await connection.send(`player list`);
 
             message.reply(response.Result.map((item:any) => item.username).join('\n')); 
+        }
+        catch( e ){
+            console.log ( e )
+            message.reply('```'+ "Cannot send command, is server offline?" +'```')
+            return;
         }
         
     },
