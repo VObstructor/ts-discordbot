@@ -1,6 +1,6 @@
 const whitelist = require('../whitelisteditems');
 
-import att from 'js-tale/dist';
+import * as att from 'js-tale/dist';
 import discord from 'discord.js';
 import { config } from './config';
 
