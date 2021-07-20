@@ -1,8 +1,9 @@
-const config = require('../config');
+const config = require('./config');
 const whitelist = require('../whitelisteditems');
 
 import att from 'js-tale/dist';
 import discord from 'discord.js';
+
 
 var discordBot:discord.Client;
 var attBot:att.Client;
@@ -14,7 +15,7 @@ init();
 async function init()
 { 
     discordBot  = new discord.Client();
-    discordBot.login(config.discord);
+    discordBot.login(config.token);
 
     discordBot.on('message', handleDiscordMessage);
     
