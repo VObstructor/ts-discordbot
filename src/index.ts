@@ -39,7 +39,7 @@ function handleDiscordMessage(message:discord.Message)
 
         if (space > 0)
         {
-            var command = content.substr(1, space - 3).trim();
+            var command = content.substr(1, space - 1).trim();
         }
         else
         {
