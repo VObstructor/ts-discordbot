@@ -35,7 +35,7 @@ function handleDiscordMessage(message:discord.Message)
     
     if (content.startsWith('cm'))
     {
-        var space = content.indexOf(' ', 2);
+        var space = content.indexOf(' ', 4);
 
         if (space > 0)
         {
