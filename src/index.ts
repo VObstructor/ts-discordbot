@@ -33,13 +33,13 @@ function handleDiscordMessage(message:discord.Message)
 {
     var content = message.content;
     
-    if (content.startsWith('cm'))
+    if (content.startsWith('cm '))
     {
         var space = content.indexOf(' ', 2);
 
         if (space > 0)
         {
-            var command = content.substr(1, space - 2).trim();
+            var command = content.substr(1, space - 1).trim();
         }
         else
         {
