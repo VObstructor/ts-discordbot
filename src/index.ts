@@ -35,15 +35,15 @@ function handleDiscordMessage(message:discord.Message)
     
     if (content.startsWith('cm'))
     {
-        var space = content.indexOf(' ', 2);
+        var space = content.indexOf(' ', 4);
 
         if (space > 0)
         {
-            var command = content.substr(1, space - 2).trim();
+            var command = content.substr(1, space - 1).trim();
         }
         else
         {
-            var command = content.substr(3);
+            var command = content.substr(1);
         }
 
         var handler = discordHandler[command];
@@ -95,10 +95,10 @@ var discordHandler : {[command:string]:(message:discord.Message, args?:any)=>voi
             message.reply(response.Result.map((item:any) => item.username).join('\n')); 
         }
         catch( e ){
-                console.log ( e )
-                message.reply('```'+ "Cannot send command, is server offline?" +'```')
-                return;
-            }
+            console.log ( e )
+            message.reply('```'+ "Cannot send command, is server offline?" +'```')
+            return;
+        }
         
     },
 
