@@ -1,1 +1,1 @@
-worker: node ./build/index.js
+worer: node ./build/index.js
