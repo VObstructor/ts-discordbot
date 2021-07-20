@@ -78,8 +78,8 @@ var discordHandler : {[command:string]:(message:discord.Message, args?:any)=>voi
 {
     'ping' : message => message.reply('pong'),
 
-    'help' : message => message.reply("go check out what I can do over at" + '#bot-help'),
-    'whitelist': message => message.reply("you can see what a can and cannot spawn for you at" + '#bot-whitelist'),
+    'help' : message => message.reply("go check out what I can do over at " + '#bot-help'),
+    'whitelist': message => message.reply("you can see what a can and cannot spawn for you at " + '#bot-whitelist'),
 
     'players' : async (message) =>
     {
