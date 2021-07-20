@@ -1,8 +1,8 @@
-const config = require('./config');
 const whitelist = require('../whitelisteditems');
 
 import att from 'js-tale/dist';
 import discord from 'discord.js';
+import { config } from './config';
 
 
 var discordBot:discord.Client;
