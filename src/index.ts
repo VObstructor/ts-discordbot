@@ -2,7 +2,7 @@ const whitelist = require('../whitelisteditems');
 
 import * as att from 'js-tale/dist';
 import discord from 'discord.js';
-import { config } from './config';
+import { config } from '../src/config';
 
 
 var discordBot:discord.Client;
