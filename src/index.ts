@@ -14,19 +14,26 @@ init();
 
 async function init()
 { 
-    discordBot  = new discord.Client();
-    discordBot.login(config.token);
+    try
+    {
+        discordBot  = new discord.Client();
+        discordBot.login(config.token);
 
-    discordBot.on('message', handleDiscordMessage);
+        discordBot.on('message', handleDiscordMessage);
+        
+        await new Promise<void>(resolve => discordBot.once('ready', () => resolve()));
+
+        attBot = new att.Client();
+        await attBot.init(config);
+        
+        var group = await attBot.groupManager.groups.get(config.groupId);
+
+        group.automaticConsole(serverConnected);
+    }
+    catch( e ){
+        console.log( e )
+    }
     
-    await new Promise<void>(resolve => discordBot.once('ready', () => resolve()));
-
-    attBot = new att.Client();
-    await attBot.init(config);
-    
-    var group = await attBot.groupManager.groups.get(config.groupId);
-
-    group.automaticConsole(serverConnected);
 };
 
 function handleDiscordMessage(message:discord.Message)
