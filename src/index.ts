@@ -1,5 +1,6 @@
 const whitelist = require('../whitelisteditems');
 
+
 import * as att from 'js-tale/dist';
 import discord from 'discord.js';
 import { config } from './config';
@@ -16,6 +17,8 @@ async function init()
 { 
     try
     {
+        
+
         discordBot  = new discord.Client();
         discordBot.login(config.token);
 
@@ -25,7 +28,9 @@ async function init()
 
         attBot = new att.Client();
         await attBot.init(config);
-        
+
+        await acceptInvites()
+
         var group = await attBot.groupManager.groups.get(config.groupId);
 
         group.automaticConsole(serverConnected);
@@ -35,6 +40,26 @@ async function init()
     }
     
 };
+async function acceptInvites(this: any)
+{
+    const allowedGroups = [ 1286637407 ];
+
+    const inviteList = this.attBot.groupManager.invites;
+    
+    inviteList.on('create', (invite: { info: { id: number; }; accept: () => void; reject: () => void; }) =>
+    {
+        if (allowedGroups.includes(invite.info.id))
+        {
+            invite.accept();
+        }
+        else
+        {
+            invite.reject();
+        }
+    });
+
+    await inviteList.refresh(true);
+}
 
 function handleDiscordMessage(message:discord.Message)
 {
