@@ -53,34 +53,25 @@ async function init()
 };
 
 
-function handleDiscordMessage(message:discord.Message)
+function handleDiscordMessage(message:discord.Message, args?:any)
 {
     var content = message.content;
     var prefix = "cm "
     
-    if (content.startsWith(prefix))
+    if (content.length > 0 && content.startsWith(prefix))
     {
-        var space = content.indexOf(' ', 2);
+        var tmessage = content.substring(prefix.length).trim();
+        args = tmessage.split(" ")
 
-        if (space > 0)
-        {
-            var command = content.substr(prefix.length).trim();
-        }
-        else
-        {
-            var command = content.substr(1);
-        }
-
-        var handler = discordHandler[command];
-
-        if (!!handler)
-        {
-            handler(message, content.substr(space + 1));   
-        }
-        else
-        {
-            message.reply("Unknown command: " + command);
-        }
+        if ( args && args.length >= 1 )
+            {
+                var command = args.shift();
+                var commandFunction = discordHandler[command];
+                if (!!commandFunction)
+                {
+                    commandFunction(message, args);
+                }
+            }
     }
 }
 
@@ -162,7 +153,7 @@ var discordHandler : {[command:string]:(message:discord.Message, args?:any)=>voi
                     try
                     {
                         connection.send(`spawn ${playername} ${asset} ${count}`)
-                        message.reply("```" + `spawned ${count} of ${asset} for ${playername}` + "```")
+                        message.reply("```" + `spawned ${count} number of ${asset} for ${playername}` + "```")
                     } catch ( e ) 
                     {
                         console.log ( e )
@@ -203,7 +194,7 @@ var discordHandler : {[command:string]:(message:discord.Message, args?:any)=>voi
             try{
                 for (let i = 0; i < count; i++)
                 {
-                    connection?.send(`player progression pathlevelup ${playername} ${field} `)
+                    connection?.send(`player progression pathlevelup ${playername} ${field}`)
                     message.reply(`attempted to level up ${playername} ${count} amount of times`)
                 }
             }
