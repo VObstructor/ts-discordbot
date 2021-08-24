@@ -18,7 +18,8 @@
   },
   "dependencies": {
     "att-websockets": "^1.1.4",
-    "discord.js": "^12.5.1",
-    "js-tale": "^1.0.11"
+    "discord.js": "^12.5.3",
+    "js-tale": "^1.0.11",
+    "latest": "^0.2.0"
   }
 }

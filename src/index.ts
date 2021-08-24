@@ -1,5 +1,7 @@
 const whitelist = require('../whitelisteditems');
-const allowedGroups = [ 1286637407 ]
+const allowedGroups = [ 1286637407 ];
+const {Client, Intents} = require("discord.js");
+const discordintents = [Intents.FLAGS.GUILD, Intents.FLAGS.GUILD_MESSAGES]
 
 import * as att from 'js-tale/dist';
 import discord from 'discord.js';
@@ -17,10 +19,14 @@ async function init()
 { 
     try
     {
-        discordBot  = new discord.Client();
+        discordBot  = new Client({ intents: discordintents});
         discordBot.login(config.token);
-
-        discordBot.on('message', handleDiscordMessage);
+        
+        discordBot.once("ready", () =>{
+            console.log(`${discordBot.user?.username} is online`)
+            discordBot.user?.setActivity("testing phase, DO NOT USE", { type: "PLAYING" })
+        })
+        discordBot.on('messageCreate', handleDiscordMessage);
         
         await new Promise<void>(resolve => discordBot.once('ready', () => resolve()));
 
@@ -96,28 +102,6 @@ var discordHandler : {[command:string]:(message:discord.Message, args?:any)=>voi
     'help' : message => message.reply("go check out what I can do over at " + '#bot-help'),
     'whitelist': message => message.reply("you can see what a can and cannot spawn for you at " + '#bot-whitelist'),
 
-    'players' : async (message) =>
-    {
-        //checks if there is an connection
-        if (!connection)
-        {
-            message.reply("Server is not online");
-            return;
-        }
-        if (discord.Channel.name == "other-commands" || discord.Channel.name == "bot-testing")
-        try{
-            var response = await connection.send(`player list`);
-
-            message.reply(response.Result.map((item:any) => item.username).join('\n')); 
-        }
-        catch( e ){
-            console.log ( e )
-            message.reply('```'+ "Cannot send command, is server offline?" +'```')
-            return;
-        }
-        
-    },
-
     'spawn' : async (message, args) =>
     {
         //gathers the words for separate identification
@@ -125,6 +109,8 @@ var discordHandler : {[command:string]:(message:discord.Message, args?:any)=>voi
         let asset = args[2]
         let count = args[3]
         
+        //array of channel id's the bot is allowed to run the commands from
+        var allowedchannels = ["651525381873991697", "648813527179460610", "796153346573991937", "648813309784752148"]
         //catchblocks for when people dont include required information
         {
             asset = '"'+ asset +'"';
@@ -141,7 +127,7 @@ var discordHandler : {[command:string]:(message:discord.Message, args?:any)=>voi
         }
         else
         {
-            if (discord.Channel.name == "trusted-spawn-commands" || discord.Channel.name == "bot-testing" || discord.Channel.name == "spawn-commands") 
+            if (allowedchannels.includes(message.channel.id)) 
             {
                 if (count <= 50)
                 {
@@ -175,9 +161,12 @@ var discordHandler : {[command:string]:(message:discord.Message, args?:any)=>voi
     },
     'level' : async (message, args) =>
     {
+        //gathers the words for separate identification
         let playername = args[1]
         let field = args[2]
         let count = args[3]
+        //array of channel id's the bot is allowed to run the commands from
+        var allowedchannels = ["651525381873991697", "648813527179460610", "796153346573991937", "648813309784752148"]
         //catchblocks for when people dont incluse nessisairy or wrong information
         if ((!count || count == String||count > 3)){
             count = 1
@@ -187,16 +176,14 @@ var discordHandler : {[command:string]:(message:discord.Message, args?:any)=>voi
             message.reply('```' + "this is not a valid skill, please try a diffrent one from" + '#bot-help' + '```')
             }
         //command handler
-        if (discord.Channel.name == "trusted-spawn-commands" || discord.Channel.name == "bot-testing" || discord.Channel.name == "spawn-commands" || discord.Channel.name == "other-command")
+        if (allowedchannels.includes(message.channel.id))
         {
-
-            
             try{
                 for (let i = 0; i < count; i++)
                 {
                     connection?.send(`player progression pathlevelup ${playername} ${field}`)
-                    message.reply(`attempted to level up ${playername} ${count} amount of times`)
                 }
+                message.reply(`attempted to level up ${playername} ${count} amount of times`)
             }
             catch( e ){
                 console.log ( e )
@@ -226,7 +213,3 @@ function serverConnected(newConnection:att.ServerConnection)
     });
 }
 
-function playerJoined(player:any)
-{
-    console.log(`${player.name} joined the server.`);
-}
