@@ -14,12 +14,7 @@ var attBot:att.Client;
 var connection:undefined|att.ServerConnection;
 
 init();
-/*
-	
-	"message": "Argument of type 'botconfig' is not assignable to parameter of type 'Config'.\n  
-    Type 'botconfig' is missing the following properties from type 'AuthorizationCode': redirectUri, clientId",
 
-*/
 async function init()
 { 
     try
