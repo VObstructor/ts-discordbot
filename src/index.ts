@@ -14,7 +14,12 @@ var attBot:att.Client;
 var connection:undefined|att.ServerConnection;
 
 init();
+/*
+	
+	"message": "Argument of type 'botconfig' is not assignable to parameter of type 'Config'.\n  
+    Type 'botconfig' is missing the following properties from type 'AuthorizationCode': redirectUri, clientId",
 
+*/
 async function init()
 { 
     try
@@ -26,12 +31,14 @@ async function init()
             console.log(`${discordBot.user?.username} is online`)
             discordBot.user?.setActivity("testing phase, DO NOT USE", { type: "PLAYING" })
         })
+
         discordBot.on('messageCreate', handleDiscordMessage);
         
         await new Promise<void>(resolve => discordBot.once('ready', () => resolve()));
 
-        attBot = new att.Client();
-        await attBot.init(config);
+        
+        attBot = new att.Client(config);
+        await attBot.initialize();
         
         const inviteList = attBot.groupManager.invites;
         inviteList.on('create', (invite: { info: { id: number; }; accept: () => void; reject: () => void; }) =>
